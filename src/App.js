@@ -30,7 +30,7 @@ function App() {
       <>
         <div className="displayedData">{todoItem.name}</div>
         <div className="displayedData">{todoItem.dueDate}</div>
-        <button onclick="edit(${i})" className="editButton">Edit</button>
+        <button onClick={()=>edit(i)} className="editButton">Edit</button>
         <button onClick={() => deleteItem(i)} className="deleteButton">Delete</button>
       </>
     )
@@ -51,11 +51,23 @@ function App() {
     else{
       toast.error('data empty');
     }
+    document.querySelector('.input-area').value = '';
+    document.querySelector('.input-date').value = '';
+    document.querySelector('.input-button').innerText = 'Add';
   }
 
   function deleteItem(index) {
     setTodoData(todoData.filter((_, i) => i !== index));
-    toast.info('deleted')
+    toast.info('deleted');
+  }
+
+  function edit(index){
+    let oldData = todoData[index].name;
+    let oldDate = todoData[index].dueDate;
+    setTodoData(todoData.filter((_, i) => i !== index));
+    document.querySelector('.input-button').innerText = 'Edit';
+    document.querySelector('.input-area').value = oldData;
+    document.querySelector('.input-date').value = oldDate;
   }
 }
 
