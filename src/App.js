@@ -3,7 +3,8 @@ import './App.css';
 import { toast, ToastContainer } from 'react-toastify';
 
 function App() {
-  let [todoData,setTodoData] = useState([{name:"yes",dueDate:2}]);
+  let [todoData,setTodoData] = useState([]);
+  let [strikeStatus,setStrikeStatus] = useState([]);
   return (
     <div tabIndex="0" onKeyDown={(event) => { if (event.key === 'Enter') add();}}>
     <ToastContainer/>
@@ -27,12 +28,12 @@ function App() {
 
   function Card({todoItem,i}){
     return(
-      <>
-        <div className="displayedData">{todoItem.name}</div>
-        <div className="displayedData">{todoItem.dueDate}</div>
+        <>
+        <div onClick = {()=>strike(i)} className={`displayedData ${(strikeStatus[i]?'strike':'')}`}>{todoItem.name}</div>
+        <div onClick = {()=>strike(i)} className={`displayedData ${(strikeStatus[i]?'strike':'')}`}>{todoItem.dueDate}</div>
         <button onClick={()=>edit(i)} className="editButton">Edit</button>
         <button onClick={() => deleteItem(i)} className="deleteButton">Delete</button>
-      </>
+        </>
     )
   }
   
@@ -42,6 +43,7 @@ function App() {
     if(name !== ""){
       if(!todoData.some(item => item.name === name)){
         setTodoData([...todoData, { name: name, dueDate: dueDate }]);
+        setStrikeStatus([...strikeStatus,false]);
         toast.success('added')
       } 
       else{
@@ -58,6 +60,7 @@ function App() {
 
   function deleteItem(index) {
     setTodoData(todoData.filter((_, i) => i !== index));
+    setStrikeStatus(strikeStatus.filter((_, i) => i !== index));
     toast.info('deleted');
   }
 
@@ -68,6 +71,12 @@ function App() {
     document.querySelector('.input-button').innerText = 'Edit';
     document.querySelector('.input-area').value = oldData;
     document.querySelector('.input-date').value = oldDate;
+  }
+
+  function strike(i) {
+    const updatedStrikeStatus = [...strikeStatus];
+    updatedStrikeStatus[i] = !updatedStrikeStatus[i];
+    setStrikeStatus(updatedStrikeStatus);
   }
 }
 
