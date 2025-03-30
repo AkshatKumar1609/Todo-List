@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import './App.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer, Zoom } from 'react-toastify';
 
 function App() {
   let [todoData,setTodoData] = useState([]);
   let [strikeStatus,setStrikeStatus] = useState([]);
   return (
     <div tabIndex="0" onKeyDown={(event) => { if (event.key === 'Enter') add();}}>
-    <ToastContainer/>
+    <ToastContainer
+      position="top-right"
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover={false}
+      theme="colored"
+      transition={Zoom}
+    />
     <p className="title">Todo List</p>
       <div className = "input-format">
           <input placeholder="Todo Name" className="input-area"/>
